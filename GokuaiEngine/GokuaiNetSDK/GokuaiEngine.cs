@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using GoKuai_EntSDK.Net;
 using GoKuai_EntSDK.UtilClass;
 using System.Net;
@@ -579,7 +578,7 @@ namespace GoKuai_EntSDK
                 string_sign += array[i] + (i == array.Length - 1 ? string.Empty : "\n");
             }
 
-            return HttpUtility.UrlEncode(Util.EncodeToHMACSHA1(string_sign, _clientSecret));
+            return Uri.EscapeDataString(Util.EncodeToHMACSHA1(string_sign, _clientSecret));
         }
 
 

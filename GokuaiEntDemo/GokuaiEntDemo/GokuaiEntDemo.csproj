@@ -32,9 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GokuaiNetSDK, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="GokuaiNetSDK, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\GokuaiEngine\GokuaiNetSDK\bin\Release\GokuaiNetSDK.dll</HintPath>
+      <HintPath>..\..\GokuaiEngine\GokuaiNetSDK\bin\Debug\GokuaiNetSDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

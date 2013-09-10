@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GoKuai_EntSDK.Net
 {
@@ -341,4 +340,20 @@ namespace GoKuai_EntSDK.Net
 
         }
     }
+
+     /// <summary>
+     /// 枚举请求类型
+     /// </summary>
+     public enum RequestType
+     {
+         /// <summary>
+         /// GET请求
+         /// </summary>
+         GET,
+         /// <summary>
+         /// POST请求
+         /// </summary>
+         POST,
+
+     }
 }
