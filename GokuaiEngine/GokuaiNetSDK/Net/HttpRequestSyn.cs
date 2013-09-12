@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 
 namespace GoKuai_EntSDK.Net
 {
@@ -180,10 +181,12 @@ namespace GoKuai_EntSDK.Net
             }
             else
             {
+                webRequest.KeepAlive = true;
+                webRequest.Timeout = 1000 * 60 * 60 * 24;
                 webRequest.ContentType = ContentType;
             }
             webRequest.Method = RequestMethod.ToString();
-            //webRequest.Timeout = 120000;
+            
             if (GetHeadParame() != null)
             {
                 webRequest.Headers = GetHeadParame();
@@ -203,9 +206,12 @@ namespace GoKuai_EntSDK.Net
 
                     if (PostDataByte != null)
                     {
+                        long count=0;
                         foreach (byte b in this.PostDataByte)
                         {
-                            LogPrint.Print(PostDataByte.IndexOf(b)+":"+PostDataByte.Count);
+                            count++;
+                            if (count %(1024*1024*100) == 0) LogPrint.Print("uploading" + count);
+                            
                             stream.WriteByte(b);
                         }
                         stream.Flush();

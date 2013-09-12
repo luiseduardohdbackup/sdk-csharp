@@ -15,6 +15,8 @@ namespace GoKuai_EntSDK.Data
         private const string KEY_ACCESS_TOKEN = "access_token";
         private const string KEY_EXPIRES_IN = "expires_in";
         private const string KEY_REFRESH_TOKEN = "refresh_token";
+        private const string KEY_ERROR= "error";
+
 
         /// <summary>
         /// 登陆token
@@ -50,6 +52,7 @@ namespace GoKuai_EntSDK.Data
             {
                 var json = (IDictionary<string, object>)SimpleJson.DeserializeObject(jsonString);
                 data.ErrorCode = SimpleJson.TryIntValue(json, KEY_ERROR_CODE);
+                data.ErrorMessage = SimpleJson.TryStringValue(json, KEY_ERROR);
                 data.ErrorMessage = SimpleJson.TryStringValue(json, KEY_ERROR_MSG);
 
                 data.Expires = SimpleJson.TryIntValue(json, KEY_EXPIRES_IN);

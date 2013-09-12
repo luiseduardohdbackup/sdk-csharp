@@ -65,6 +65,8 @@ namespace GokuaiEntDemo
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //开启sdk debug日志
+            GokuaiEngine.DebugLogPrint = true;
             //新实例化对象
             GokuaiEngine ge = new GokuaiEngine(_username,_password,_clientId,_clientSecret);
             string result=ge.GetToken();
@@ -75,10 +77,10 @@ namespace GokuaiEntDemo
             }
             else
             {
-                BaseData data = BaseData.Create(result);
+                OauthData data = OauthData.Create(result);
                 if (data != null)
                 {
-                    MessageBox.Show(data.ErrorCode + ":" + data.ErrorMessage);
+                    MessageBox.Show(data.Error);
                 }
                 else 
                 {
@@ -87,7 +89,6 @@ namespace GokuaiEntDemo
                 
             }
             _gokuaiEngine = ge;
-            
         }
 
 
@@ -234,7 +235,15 @@ namespace GokuaiEntDemo
             FileData data = FileData.Create(jsonString);
             if (_gokuaiEngine.StatusCode==HttpStatusCode.OK)
             {
-                _gokuaiEngine.Get(data.Uri, data.FileName);
+               bool isNormalDownload= _gokuaiEngine.Get(data.Uri, data.FileName);
+               if (isNormalDownload)
+               {
+                   MessageBox.Show("下载完毕");
+               }
+               else 
+               {
+                   MessageBox.Show("下载过程中发生异常");
+               }
             }
             else 
             {

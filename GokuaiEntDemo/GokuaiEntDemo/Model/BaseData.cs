@@ -1,4 +1,5 @@
-﻿using GoKuai_EntSDK.Net;
+﻿using GoKuai_EntSDK.Data;
+using GoKuai_EntSDK.Net;
 using GoKuai_EntSDK.UtilClass;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace GokuaiEntDemo.Model
         private const string LOG_TAG = "BaseData";
         protected const string KEY_ERROR_CODE = "error_code";
         protected const string KEY_ERROR_MSG = "error_msg";
+        
 
         /// <summary>
         /// 错误码
@@ -45,6 +47,7 @@ namespace GokuaiEntDemo.Model
             {
                 var json =  (IDictionary<string, object>)SimpleJson.DeserializeObject(jsonString);
                 data.ErrorCode = SimpleJson.TryIntValue(json, KEY_ERROR_CODE);
+                
                 data.ErrorMessage = SimpleJson.TryStringValue(json, KEY_ERROR_MSG);
                 return data;
 

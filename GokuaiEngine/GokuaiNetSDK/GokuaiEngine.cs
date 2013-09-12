@@ -20,6 +20,9 @@ namespace GoKuai_EntSDK
         private const string URL_API_TOKEN = HOST + "/oauth2/token";
         private const string URL_API_GET_FILE_INFO = HOST + "/1/file/info";
         private const string URL_API_GET_FILE_LIST = HOST + "/1/file/ls";
+        private const string URL_API_GET_UPLOAD_SERVER = HOST + "/1/file/upload_server";
+        private const string URL_API_UPLOAD =  "{0}/1/file/upload";
+
         private const string URL_API_FILE_ADD = HOST + "/1/file/add";
         private const string URL_API_FILE_DEL = HOST + "/1/file/del";
         private const string URL_API_FILE_MOVE = HOST + "/1/file/move";
@@ -62,6 +65,13 @@ namespace GoKuai_EntSDK
         protected string _username;
         protected string _password;
 
+        private static bool _debugLogPrint;
+        public static bool DebugLogPrint
+        {
+            get { return _debugLogPrint;}
+            set { _debugLogPrint = value; }
+        }
+
         protected string _token;
         /// <summary>
         /// 获取到的身份验证token
@@ -69,6 +79,24 @@ namespace GoKuai_EntSDK
         public string Token
         {
             get { return _token; }
+        }
+
+        /// <summary>
+        /// 获得一个全新的对象,可以跳过token步骤
+        /// 注:多线程访问建议使用clone出的新对象,并发执行
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public GokuaiEngine Clone() 
+        {
+            GokuaiEngine ge=new GokuaiEngine();
+            ge._clientId = this._clientId;
+            ge._clientSecret = this._clientSecret;
+            ge._refreshToken = this._password;
+            ge._teamFolderPath = this._teamFolderPath;
+            ge._token = this._token;
+            ge._refreshToken = this._refreshToken;
+            return ge;
         }
 
         protected string _refreshToken;
@@ -95,6 +123,10 @@ namespace GoKuai_EntSDK
                 }
                 return _teamFolderPath;
             }
+            set 
+            {
+                _teamFolderPath = value;
+            }
         }
 
         /// <summary>
@@ -112,6 +144,7 @@ namespace GoKuai_EntSDK
         {
 
         }
+
 
         /// <summary>
         /// 
@@ -192,7 +225,8 @@ namespace GoKuai_EntSDK
                 using (FileStream FS = new FileStream(localPath, FileMode.Open))
                 {
                     Stream stream = FS;
-                    return Add(fullPath, mount, stream, Util.GetFileNameFromPath(localPath));
+                    
+                    return Add(fullPath, mount , stream, Util.GetFileNameFromPath(localPath));
                 }
                 
             }
@@ -221,11 +255,14 @@ namespace GoKuai_EntSDK
         /// <param name="stream"></param>
         /// <param name="fileName"></param>
         
-        public string Add(string fullPath, MountType mount, Stream stream, string fileName) 
+        public string Add(string fullPath , MountType mount, Stream stream, string fileName) 
         {
+            string serverpath = GetUploadAddress(fullPath, mount);
+            if (string.IsNullOrEmpty(serverpath)) return "上传地址获取错误";
+
             HttpRequestSyn request = new HttpRequestSyn();
-            request.RequestUrl = URL_API_FILE_ADD;
-            string[] arr = new string[] { "file", fullPath, mount.ToString().ToLower(), _token };
+            request.RequestUrl = string.Format(URL_API_UPLOAD, serverpath);
+            string[] arr = new string[] { fullPath, mount.ToString().ToLower(), _token };
             MsMultiPartFormData data = new MsMultiPartFormData();
             request.ContentType = "multipart/form-data;boundary=" + data.Boundary;
             data.AddStreamFile("file", fileName, Util.ReadToEnd(stream));
@@ -239,9 +276,33 @@ namespace GoKuai_EntSDK
             request.RequestMethod = RequestType.POST;
             LogPrint.Print("------------->Begin to Upload<------------------");
             request.Request();
-            LogPrint.Print("--------------------->Upload Compeleted<--------------");
+            LogPrint.Print("--------------------->Upload Request Compeleted<--------------");
             this.StatusCode = request.Code;
             return request.Result;
+
+        }
+
+        private string GetUploadAddress(string fullPath, MountType mount) 
+        {
+            HttpRequestSyn request = new HttpRequestSyn();
+            request.RequestUrl = URL_API_GET_UPLOAD_SERVER;
+            request.AppendParameter("token", _token);
+            request.AppendParameter("fullpath", fullPath);
+            request.AppendParameter("mount", mount.ToString().ToLower());
+            request.AppendParameter("sign", GenerateSign(request.SortedParamter));
+            request.RequestMethod = RequestType.POST;
+            request.Request();
+            try
+            {
+                var json = (IDictionary<string, object>)SimpleJson.DeserializeObject(request.Result);
+                string server = SimpleJson.TryStringValue(json, "server");
+                return server;
+
+            }
+            catch 
+            {
+                return "";
+            }
 
         }
 
@@ -362,7 +423,9 @@ namespace GoKuai_EntSDK
         /// </summary>
         /// <param name="downloadUrl"></param>
         /// <param name="fileName"></param>
-        public void Get(string downloadUrl,string fileName) 
+        /// <returns>true为下载成功</returns>
+       
+        public bool Get(string downloadUrl,string fileName) 
         {
             WebClient webClient = new WebClient();
             
@@ -370,23 +433,57 @@ namespace GoKuai_EntSDK
             {
                 Directory.CreateDirectory(TeamFolderPath);
             }
-            webClient.DownloadFile(downloadUrl, TeamFolderPath + fileName);
+            try
+            {
+                LogPrint.Print("-------------------->Begin to Download");
+                webClient.DownloadFile(downloadUrl, TeamFolderPath + fileName);
+                LogPrint.Print("-------------------->Download Compeleted");
+            }
+            catch (WebException e)
+            {
+                LogPrint.Print("WebException:"+e.StackTrace);
+                return false;
+
+            }
+            catch (NotSupportedException e)
+            {
+                LogPrint.Print("WebException:" + e.StackTrace);
+                return false;
+
+            }
+            catch (ArgumentNullException e) 
+            {
+                LogPrint.Print("WebException:" + e.StackTrace);
+                return false;
+            }
+            return true;          
         }
 
         /// <summary>
         /// 存放在够快api ext 根目录
         /// </summary>
         /// <param name="stream"></param>
-        public void Get(Stream stream,string fileName) 
+        public bool Get(Stream stream,string fileName) 
         {
-            FileStream fs = new FileStream(fileName, FileMode.Create);
+            
             //获得字节数组
-            byte[] data = Util.ReadToEnd(stream);
-            //开始写入
-            fs.Write(data, 0, data.Length);
-            //清空缓冲区、关闭流
-            fs.Flush();
-            fs.Close();
+            try
+            {
+                FileStream fs = new FileStream(fileName, FileMode.Create);
+                byte[] data = Util.ReadToEnd(stream);
+                //开始写入
+                fs.Write(data, 0, data.Length);
+                //清空缓冲区、关闭流
+                fs.Flush();
+                fs.Close();
+            }
+            catch 
+            {
+                return false;
+            }
+            
+
+            return true;
         }
 
         /// <summary>

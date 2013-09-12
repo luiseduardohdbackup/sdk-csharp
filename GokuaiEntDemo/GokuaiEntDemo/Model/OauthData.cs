@@ -1,4 +1,5 @@
-﻿using GoKuai_EntSDK.Net;
+﻿using GoKuai_EntSDK.Data;
+using GoKuai_EntSDK.Net;
 using GoKuai_EntSDK.UtilClass;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GokuaiEntDemo.Model
 {
-    public class OauthData : BaseData
+    public class OauthData
     {
 
         private const string LOG_TAG="OauthData";
@@ -17,11 +18,20 @@ namespace GokuaiEntDemo.Model
         private const string KEY_ACCESS_TOKEN = "access_token";
         private const string KEY_EXPIRES_IN = "expires_in";
         private const string KEY_REFRESH_TOKEN = "refresh_token";
+        private const string KEY_ERROR = "error";
 
         /// <summary>
         /// 登陆token
         /// </summary>
         public string Token
+        {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// 错误信息
+        /// </summary>
+        public string Error
         {
             get;
             private set;
@@ -51,8 +61,9 @@ namespace GokuaiEntDemo.Model
             try
             {
                 var json = (IDictionary<string, object>)SimpleJson.DeserializeObject(jsonString);
-                data.ErrorCode = SimpleJson.TryIntValue(json, KEY_ERROR_CODE);
-                data.ErrorMessage = SimpleJson.TryStringValue(json, KEY_ERROR_MSG);
+
+                string msg = SimpleJson.TryStringValue(json, KEY_ERROR);
+                data.Error = OauthErrMsg.ConvertMsg(msg);//转化错误信息
 
                 data.Expires = SimpleJson.TryIntValue(json, KEY_EXPIRES_IN);
                 data.Token = SimpleJson.TryStringValue(json, KEY_ACCESS_TOKEN);

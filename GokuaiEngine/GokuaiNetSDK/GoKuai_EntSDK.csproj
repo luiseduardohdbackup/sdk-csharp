@@ -52,6 +52,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\Collaboration.cs" />
+    <Compile Include="Data\OauthErrMsg.cs" />
     <Compile Include="GokuaiEngine.cs" />
     <Compile Include="Data\BaseData.cs" />
     <Compile Include="Data\OauthData.cs" />

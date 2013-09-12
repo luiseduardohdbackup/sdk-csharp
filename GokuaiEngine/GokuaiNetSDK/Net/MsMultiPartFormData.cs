@@ -8,7 +8,7 @@ namespace GoKuai_EntSDK.Net
 {
     class MsMultiPartFormData
     {
-        private const int BLOCK_SIZE = 4098;
+        private const int BLOCK_SIZE = 4096;
         private List<byte> formData;
         public string Boundary = string.Format("--{0}--", Guid.NewGuid());
         private string fileContentType = "Content-Type: {0}";

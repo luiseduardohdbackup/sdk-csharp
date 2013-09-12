@@ -12,7 +12,10 @@ namespace GoKuai_EntSDK.UtilClass
 
         public static void Print(string log)
         {
-            Debug.WriteLine(PRO_NAME+"GoKuai_EntSDK==>"+log);
+            if (GokuaiEngine.DebugLogPrint) {
+                Debug.WriteLine(PRO_NAME + "GoKuai_EntSDK==>" + log);
+            }
+            
         }
         
     }
