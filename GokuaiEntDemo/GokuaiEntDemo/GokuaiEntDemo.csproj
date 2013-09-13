@@ -57,11 +57,14 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\ActDesc.cs" />
     <Compile Include="Model\BaseData.cs" />
     <Compile Include="Model\FileData.cs" />
     <Compile Include="Model\FileListData.cs" />
     <Compile Include="Model\OauthData.cs" />
     <Compile Include="Model\SearchResultData.cs" />
+    <Compile Include="Model\UpdateFileList.cs" />
+    <Compile Include="Model\UpdateItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CollaborationOperate.resx">

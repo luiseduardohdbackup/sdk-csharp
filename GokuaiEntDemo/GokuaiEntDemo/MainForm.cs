@@ -293,7 +293,39 @@ namespace GokuaiEntDemo
 
         private void Btn_GetUpdateList_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(DeserializeErrorMsg(_gokuaiEngine.UpdateList(TB_UpdateFilePath.Text, 0, UpdateType.ALL, Util.GetUnixDataline() - 24 * 60 * 60 - 1, Util.GetUnixDataline() + 24 * 60 * 60 - 1), _gokuaiEngine.StatusCode));
+
+            
+            string result = _gokuaiEngine.UpdateList(TB_UpdateFilePath.Text, 0, UpdateType.ALL, Util.GetUnixDataline() - 12 * 60 * 60 - 1, Util.GetUnixDataline() );
+
+
+            UpdateFileList data = UpdateFileList.Create(result);
+            if (_gokuaiEngine.StatusCode == HttpStatusCode.OK)
+            {
+                string str = "";
+                //逐个获取单条更新信息
+                 foreach(UpdateItem item in data.Datalist){
+                     str += item.MemberName+":"+ActDesc.ConvertAct(item.Act)+":"+Util.TimeFormat(item.Dateline,Util.TIMEFORMAT_HS)+"\n";
+
+
+                     string files="";
+                     //获取一条更新信息里的县官文件
+                     foreach(FileData filedata in item.Files){
+                         files += " ==>"+filedata.FileName+"\n";
+                     }
+                     str += files;
+
+
+                 }
+
+
+                 Debug.Print(str); ;
+
+            }
+            else 
+            {
+                Debug.Print(data.ErrorCode + ":" + data.ErrorMessage);
+            }
+
         }
 
         private void Btn_SaveSearch_Click(object sender, EventArgs e)

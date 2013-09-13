@@ -52,7 +52,11 @@ namespace GokuaiEntDemo.Model
             private set;
         }
 
-
+        /// <summary>
+        /// 解析认证jsonstring
+        /// </summary>
+        /// <param name="jsonString"></param>
+        /// <returns></returns>
         new public static OauthData Create(string jsonString)
         {
             if (jsonString == null) return null;

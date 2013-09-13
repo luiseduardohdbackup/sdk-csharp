@@ -15,11 +15,18 @@ namespace GokuaiEntDemo.Model
         private const string KEY_COUNT = "count";
 
 
+        /// <summary>
+        /// 文件数量
+        /// </summary>
         public int Count
         {
             get;
             set;
         }
+
+        /// <summary>
+        /// 文件
+        /// </summary>
         public List<FileData> DataList
         {
             private set;

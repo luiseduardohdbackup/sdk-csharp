@@ -25,69 +25,117 @@ namespace GokuaiEntDemo.Model
         private const string KEY_PREVIEW = "preview";
         private const string KEY_THUMBNAIL = "thumbnail";
 
+        /// <summary>
+        /// 文件hash
+        /// </summary>
         public string FileHash
         {
             get;
-            private set;
+            set;
         }
 
+        /// <summary>
+        /// 路径hash
+        /// </summary>
         public string Hash
         {
             get;
-            private set;
+            set;
         }
 
+        /// <summary>
+        /// 是否为文件夹 1是 0否
+        /// </summary>
         public int Dir
         {
             get;
-            private set;
+            set;
         }
+        /// <summary>
+        /// 服务端文件全路径
+        /// </summary>
         public string FullPath
         {
             get;
-            private set;
+            set;
         }
 
+        /// <summary>
+        /// 文件名
+        /// </summary>
         public string FileName 
         {
             get;
-            private set;
+            set;
         }
 
+        /// <summary>
+        /// 最后修改人
+        /// </summary>
         public string LastMemberName
         {
             get;
-            private set;
+            set;
         }
 
+        /// <summary>
+        /// 最后修改时间
+        /// </summary>
         public long LastDateline
         {
             get;
-            private set;
+            set;
         }
 
+        /// <summary>
+        /// 文件大小
+        /// </summary>
         public long FileSize
         {
             get;
-            private set;
+            set;
         }
 
+        /// <summary>
+        /// 文件下载地址
+        /// </summary>
         public string Uri
         {
             get;
-            private set;
+            set;
         }
 
+        /// <summary>
+        /// 文件预览地址
+        /// </summary>
         public string Preview
         {
             get;
-            private set;
+            set;
         }
 
+        /// <summary>
+        /// 文件缩略图地址
+        /// </summary>
         public string ThumbNail
         {
             get;
-            private set;
+            set;
+        }
+
+        public string UpFullPath
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// 是否为团队共享
+        /// </summary>
+        public int OrgShare
+        {
+            get;
+            set;
         }
 
         /// <summary>
