@@ -37,6 +37,10 @@ namespace GoKuai_EntSDK
         private const string URL_API_GET_GOURP_MEMBERS = HOST + "/1/team/group_member";
         private const string URL_API_GET_UPDATE_FILE_LIST = HOST + "/1/updates/timeline";
 
+        private const string URL_API_GET_MEMBER_INFO = HOST + "/1/team/member_info";
+        private const string URL_API_GET_AUTHORIZATION_INFO = HOST + "/1/team/authorization_info";
+
+
         //public const int API_ID_TOKEN = 1;
         //public const int API_ID_REFRESH_TOKEN = 2;
         //public const int API_ID_GET_FILE_INFO = 3;
@@ -465,6 +469,10 @@ namespace GoKuai_EntSDK
         /// <param name="stream"></param>
         public bool Get(Stream stream,string fileName) 
         {
+            if (!Directory.Exists(TeamFolderPath))
+            {
+                Directory.CreateDirectory(TeamFolderPath);
+            }
             
             //获得字节数组
             try
@@ -643,8 +651,7 @@ namespace GoKuai_EntSDK
         /// <param name="startTime"></param>
         /// <param name="endTime"></param>
         
-        public string UpdateList(string fullPath, int memberId,UpdateType type,long startTime,long endTime) 
-        {
+        public string UpdateList(string fullPath, int memberId,UpdateType type,long startTime,long endTime)        {
             HttpRequestSyn request = new HttpRequestSyn();
             request.RequestUrl = URL_API_GET_UPDATE_FILE_LIST;
             request.AppendParameter("token", _token);
@@ -659,6 +666,42 @@ namespace GoKuai_EntSDK
             this.StatusCode = request.Code;
             return request.Result;
 
+        }
+
+        /// <summary>
+        /// 获取memberid
+        /// </summary>
+        /// <param name="authorizationId">授权帐号</param>
+        /// <returns></returns>
+        public string GetMemberiInfo(string authorizationId) 
+        {
+            HttpRequestSyn request = new HttpRequestSyn();
+            request.RequestUrl = URL_API_GET_AUTHORIZATION_INFO;
+            request.AppendParameter("token", _token);
+            request.AppendParameter("authorization_id", authorizationId + "");
+            request.AppendParameter("sign", GenerateSign(request.SortedParamter));
+            request.RequestMethod = RequestType.GET;
+            request.Request();
+            this.StatusCode = request.Code;
+            return request.Result;
+        }
+
+        /// <summary>
+        /// 获取authorizationId
+        /// </summary>
+        /// <param name="memberId">用户id</param>
+        /// <returns></returns>
+        public string GetAccountInfo(int memberId) 
+        {
+            HttpRequestSyn request = new HttpRequestSyn();
+            request.RequestUrl = URL_API_GET_MEMBER_INFO;
+            request.AppendParameter("token", _token);
+            request.AppendParameter("member_id", memberId + "");
+            request.AppendParameter("sign", GenerateSign(request.SortedParamter));
+            request.RequestMethod = RequestType.GET;
+            request.Request();
+            this.StatusCode = request.Code;
+            return request.Result;
         }
 
 
@@ -677,6 +720,8 @@ namespace GoKuai_EntSDK
 
             return Uri.EscapeDataString(Util.EncodeToHMACSHA1(string_sign, _clientSecret));
         }
+
+
 
 
 

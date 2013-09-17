@@ -40,6 +40,8 @@ namespace GoKuai_EntSDK
             request.RequestUrl = URL_API_SAVE_SEARCH;
             request.AppendParameter("token", _token);
             request.AppendParameter("condition", condition);
+            request.AppendParameter("name", name);
+            request.AppendParameter("desciption", desciption);
             request.AppendParameter("mount", mount.ToString().ToLower());
             request.AppendParameter("sign", GenerateSign(request.SortedParamter));
             request.RequestMethod = RequestType.GET;
