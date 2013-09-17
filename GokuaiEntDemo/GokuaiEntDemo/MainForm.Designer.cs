@@ -85,6 +85,10 @@
             this.Btn_ReSearch = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.Btn_GetMemberInfo = new System.Windows.Forms.Button();
+            this.TB_MemberID = new System.Windows.Forms.TextBox();
+            this.TB_AccountID = new System.Windows.Forms.TextBox();
+            this.Btn_GetAccountInfo = new System.Windows.Forms.Button();
             this.Gb.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -645,11 +649,49 @@
             this.label8.TabIndex = 51;
             this.label8.Text = "路径";
             // 
+            // Btn_GetMemberInfo
+            // 
+            this.Btn_GetMemberInfo.Location = new System.Drawing.Point(334, 656);
+            this.Btn_GetMemberInfo.Name = "Btn_GetMemberInfo";
+            this.Btn_GetMemberInfo.Size = new System.Drawing.Size(115, 23);
+            this.Btn_GetMemberInfo.TabIndex = 52;
+            this.Btn_GetMemberInfo.Text = "获取meberId";
+            this.Btn_GetMemberInfo.UseVisualStyleBackColor = true;
+            this.Btn_GetMemberInfo.Click += new System.EventHandler(this.Btn_GetMemberInfo_Click);
+            // 
+            // TB_MemberID
+            // 
+            this.TB_MemberID.Location = new System.Drawing.Point(18, 658);
+            this.TB_MemberID.Name = "TB_MemberID";
+            this.TB_MemberID.Size = new System.Drawing.Size(100, 21);
+            this.TB_MemberID.TabIndex = 53;
+            // 
+            // TB_AccountID
+            // 
+            this.TB_AccountID.Location = new System.Drawing.Point(228, 658);
+            this.TB_AccountID.Name = "TB_AccountID";
+            this.TB_AccountID.Size = new System.Drawing.Size(100, 21);
+            this.TB_AccountID.TabIndex = 54;
+            // 
+            // Btn_GetAccountInfo
+            // 
+            this.Btn_GetAccountInfo.Location = new System.Drawing.Point(124, 656);
+            this.Btn_GetAccountInfo.Name = "Btn_GetAccountInfo";
+            this.Btn_GetAccountInfo.Size = new System.Drawing.Size(75, 23);
+            this.Btn_GetAccountInfo.TabIndex = 55;
+            this.Btn_GetAccountInfo.Text = "获取帐号";
+            this.Btn_GetAccountInfo.UseVisualStyleBackColor = true;
+            this.Btn_GetAccountInfo.Click += new System.EventHandler(this.Btn_GetAccountInfo_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(654, 704);
+            this.Controls.Add(this.Btn_GetAccountInfo);
+            this.Controls.Add(this.TB_AccountID);
+            this.Controls.Add(this.TB_MemberID);
+            this.Controls.Add(this.Btn_GetMemberInfo);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.Btn_ReSearch);
@@ -773,6 +815,10 @@
         private System.Windows.Forms.Button Btn_ReSearch;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button Btn_GetMemberInfo;
+        private System.Windows.Forms.TextBox TB_MemberID;
+        private System.Windows.Forms.TextBox TB_AccountID;
+        private System.Windows.Forms.Button Btn_GetAccountInfo;
     }
 }
 

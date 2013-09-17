@@ -406,6 +406,16 @@ namespace GokuaiEntDemo
             
         }
 
+        private void Btn_GetAccountInfo_Click(object sender, EventArgs e)
+        {
+             MessageBox.Show(DeserializeErrorMsg(_gokuaiEngine.GetMemberiInfo(""),_gokuaiEngine.StatusCode));
+        }
+
+        private void Btn_GetMemberInfo_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(DeserializeErrorMsg(_gokuaiEngine.GetAccountInfo(59),_gokuaiEngine.StatusCode));
+        }
+
         
 
     }
