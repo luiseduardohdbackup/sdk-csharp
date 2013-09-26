@@ -18,6 +18,7 @@ namespace GoKuai_EntSDK
         private const string DEFAULT_PATH = "GokuaiExtApi\\Team\\";
         protected const string HOST = "http://api.gokuai.com";
         private const string URL_API_TOKEN = HOST + "/oauth2/token";
+        private const string URL_API_GET_ACCOUNT_INFO = HOST + "/1/account/info";
         private const string URL_API_GET_FILE_INFO = HOST + "/1/file/info";
         private const string URL_API_GET_FILE_LIST = HOST + "/1/file/ls";
         private const string URL_API_GET_UPLOAD_SERVER = HOST + "/1/file/upload_server";
@@ -39,6 +40,8 @@ namespace GoKuai_EntSDK
 
         private const string URL_API_GET_MEMBER_INFO = HOST + "/1/team/member_info";
         private const string URL_API_GET_AUTHORIZATION_INFO = HOST + "/1/team/authorization_info";
+        private const string URL_API_FILE_SAVE = HOST + "/1/file/save";
+
 
 
         //public const int API_ID_TOKEN = 1;
@@ -533,13 +536,14 @@ namespace GoKuai_EntSDK
         /// <param name="fullPath"></param>
         /// <param name="mount"></param>
         
-        public string GetShare(string fullPath, MountType mount)
+        public string GetShare(string fullPath, MountType mount,ReturnType type)
         {
             HttpRequestSyn request = new HttpRequestSyn();
             request.RequestUrl = URL_API_GET_FILE_COLLABORATION;
             request.AppendParameter("token", _token);
             request.AppendParameter("fullpath", fullPath);
             request.AppendParameter("mount", mount.ToString().ToLower());
+            request.AppendParameter("type", (int)type+"");
             request.AppendParameter("sign", GenerateSign(request.SortedParamter));
             request.RequestMethod = RequestType.GET;
             request.Request();
@@ -704,6 +708,43 @@ namespace GoKuai_EntSDK
             return request.Result;
         }
 
+        ///// <summary>
+        ///// 保存到够快
+        ///// </summary>
+        ///// <returns></returns>
+        //public string SaveFile(string code, string relativePath, MountType mount, string toFullPath)
+        //{
+        //    HttpRequestSyn request = new HttpRequestSyn();
+        //    request.RequestUrl = URL_API_FILE_SAVE;
+        //    request.AppendParameter("token", _token);
+        //    request.AppendParameter("code", code);
+        //    request.AppendParameter("path", relativePath);
+        //    request.AppendParameter("to_mount", _token);
+        //    request.AppendParameter("to_fullpath", toFullPath);
+        //    request.AppendParameter("sign", GenerateSign(request.SortedParamter));
+        //    request.RequestMethod = RequestType.POST;
+        //    request.Request();
+        //    this.StatusCode = request.Code;
+        //    return request.Result;
+
+        //}
+
+        /// <summary>
+        /// 获取当前用户信息
+        /// </summary>
+        /// <returns></returns>
+        public string GetUserInfo() 
+        {
+            HttpRequestSyn request = new HttpRequestSyn();
+            request.RequestUrl = URL_API_GET_ACCOUNT_INFO;
+            request.AppendParameter("token", _token);
+            request.AppendParameter("sign", GenerateSign(request.SortedParamter));
+            request.RequestMethod = RequestType.GET;
+            request.Request();
+            this.StatusCode = request.Code;
+            return request.Result;
+        }
+
 
         /// <summary>
         /// 生成签名
@@ -720,13 +761,8 @@ namespace GoKuai_EntSDK
 
             return Uri.EscapeDataString(Util.EncodeToHMACSHA1(string_sign, _clientSecret));
         }
-
-
-
-
-
-        
-        
+   
+       
     }
 
     /// <summary>
@@ -800,6 +836,22 @@ namespace GoKuai_EntSDK
         /// 文件名
         /// </summary>
         FILENAME
+    }
+
+    /// <summary>
+    /// 返回类型
+    /// </summary>
+    public enum ReturnType 
+    {
+        /// <summary>
+        /// 返回成员和分组
+        /// </summary>
+        MEMBERS_AND_GROUP,
+        /// <summary>
+        /// 只返回所有成员，包括分组里的成员
+        /// </summary>
+        ONLY_MEMBERS
+        
     }
 
 }

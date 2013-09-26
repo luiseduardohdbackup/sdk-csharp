@@ -10,7 +10,7 @@ namespace GokuaiEntDemo.Model
 {
     public class FileListData : BaseData
     {
-        private const string LOG_TAG = "list";
+        private const string LOG_TAG = "FileListData";
         private const string KEY_LIST = "list";
         private const string KEY_COUNT = "count";
 

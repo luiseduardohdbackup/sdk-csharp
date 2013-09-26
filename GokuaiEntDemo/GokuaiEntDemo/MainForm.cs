@@ -203,7 +203,11 @@ namespace GokuaiEntDemo
 
         private void Btn_GetCollaboration_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(DeserializeErrorMsg(_gokuaiEngine.GetShare(TB_FilePath.Text, RadioGroup_1_Value), _gokuaiEngine.StatusCode));
+            //MessageBox.Show(DeserializeErrorMsg(_gokuaiEngine.GetShare(TB_FilePath.Text, RadioGroup_1_Value,ReturnType.MEMBERS_AND_GROUP), _gokuaiEngine.StatusCode));
+            //
+            //
+
+            MessageBox.Show(DeserializeErrorMsg(_gokuaiEngine.GetShare(TB_FilePath.Text, RadioGroup_1_Value, ReturnType.ONLY_MEMBERS), _gokuaiEngine.StatusCode));
         }
 
         private void btn_ShareOperation_Click(object sender, EventArgs e)
@@ -308,7 +312,7 @@ namespace GokuaiEntDemo
 
 
                      string files="";
-                     //获取一条更新信息里的县官文件
+                     //获取一条更新信息里的相关文件
                      foreach(FileData filedata in item.Files){
                          files += " ==>"+filedata.FileName+"\n";
                      }
@@ -414,6 +418,11 @@ namespace GokuaiEntDemo
         private void Btn_GetMemberInfo_Click(object sender, EventArgs e)
         {
             MessageBox.Show(DeserializeErrorMsg(_gokuaiEngine.GetAccountInfo(59),_gokuaiEngine.StatusCode));
+        }
+
+        private void Btn_GetUserInfo_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(DeserializeErrorMsg(_gokuaiEngine.GetUserInfo(),_gokuaiEngine.StatusCode));
         }
 
         

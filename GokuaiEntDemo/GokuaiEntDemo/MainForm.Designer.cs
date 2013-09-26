@@ -89,6 +89,7 @@
             this.TB_MemberID = new System.Windows.Forms.TextBox();
             this.TB_AccountID = new System.Windows.Forms.TextBox();
             this.Btn_GetAccountInfo = new System.Windows.Forms.Button();
+            this.Btn_GetUserInfo = new System.Windows.Forms.Button();
             this.Gb.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -683,11 +684,22 @@
             this.Btn_GetAccountInfo.UseVisualStyleBackColor = true;
             this.Btn_GetAccountInfo.Click += new System.EventHandler(this.Btn_GetAccountInfo_Click);
             // 
+            // Btn_GetUserInfo
+            // 
+            this.Btn_GetUserInfo.Location = new System.Drawing.Point(448, 18);
+            this.Btn_GetUserInfo.Name = "Btn_GetUserInfo";
+            this.Btn_GetUserInfo.Size = new System.Drawing.Size(121, 23);
+            this.Btn_GetUserInfo.TabIndex = 56;
+            this.Btn_GetUserInfo.Text = "获取用户信息";
+            this.Btn_GetUserInfo.UseVisualStyleBackColor = true;
+            this.Btn_GetUserInfo.Click += new System.EventHandler(this.Btn_GetUserInfo_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(654, 704);
+            this.Controls.Add(this.Btn_GetUserInfo);
             this.Controls.Add(this.Btn_GetAccountInfo);
             this.Controls.Add(this.TB_AccountID);
             this.Controls.Add(this.TB_MemberID);
@@ -819,6 +831,7 @@
         private System.Windows.Forms.TextBox TB_MemberID;
         private System.Windows.Forms.TextBox TB_AccountID;
         private System.Windows.Forms.Button Btn_GetAccountInfo;
+        private System.Windows.Forms.Button Btn_GetUserInfo;
     }
 }
 
